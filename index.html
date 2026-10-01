@@ -15,11 +15,36 @@
     --card:#ffffff;
     --line:#dce5e2;
     --danger:#b64a2a;
+    --soft:#f5f8f7;
+    --input:#ffffff;
+    --input-line:#bfcac6;
+    --button-bg:#edf2f0;
+    --link:#205c72;
+    --header:#205c72;
+    --urgent-bg:#fff0ee;
+    --urgent-text:#b42318;
+    --urgent-line:#e3a39d;
+    color-scheme:light;
   }
+  :root[data-theme="dark"]{
+    --ink:#eef2f5;--muted:#a7b6c2;--bg:#080c10;--card:#141b22;--line:#34414c;
+    --soft:#1a242e;--input:#0e151c;--input-line:#536576;--button-bg:#22313f;
+    --link:#91d5ea;--header:#142e3b;--danger:#ffaaa1;
+    --urgent-bg:#341d20;--urgent-text:#ffaaa1;--urgent-line:#87504e;
+    color-scheme:dark;
+  }
+  :root[data-theme="dark"] [data-level="low"]{--level-color:#91cafa;--level-bg:#182f44}
+  :root[data-theme="dark"] [data-level="normal"]{--level-color:#9cdda4;--level-bg:#1a3528}
+  :root[data-theme="dark"] [data-level="high"]{--level-color:#ffaaa1;--level-bg:#341d20}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--ink)}
-  .app{width:calc(100% - 32px);max-width:1100px;min-height:720px;margin:24px auto;background:white;border:1px solid var(--line);border-radius:28px;overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.10)}
-  header{padding:24px 22px 18px;background:var(--teal);color:#fff}
+  .app{width:calc(100% - 32px);max-width:1100px;min-height:720px;margin:24px auto;background:var(--card);border:1px solid var(--line);border-radius:28px;overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.10)}
+  header{padding:24px 22px 18px;background:var(--header);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:22px;flex-wrap:wrap}
+  .preferences{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;max-width:100%}
+  .preferences label{margin:0 0 6px;color:#d8e8ee}
+  .preferences select,.preferences button{min-height:44px;border:1px solid #6c8998;border-radius:10px;padding:10px 12px;background:#16394b;color:white;font:inherit;font-size:14px;margin:0}
+  .preferences select{max-width:100%;cursor:pointer}
+  .preferences button{font-weight:700}
   .brand{font-family:Georgia,serif;font-size:30px;font-weight:700;letter-spacing:.2px;margin:0}
   .tag{margin-top:4px;color:#d9ef91;font-weight:700;font-size:14px}
   main{padding:22px;min-height:440px}
@@ -35,21 +60,30 @@
   .pill{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#fff1d8;color:#8a5600}
   [data-level="low"]{--level-color:#276d9c;--level-bg:#eaf4fc}
   [data-level="normal"]{--level-color:#33753b;--level-bg:#eaf6eb}
-  [data-level="high"]{--level-color:#a34c11;--level-bg:#fff1df}
+  [data-level="high"]{--level-color:#b42318;--level-bg:#fff0ee}
   .pill[data-level]{color:var(--level-color);background:var(--level-bg)}
   #s2 .status-card{border-left-color:var(--level-color)}
   #s2 .big-number,#s2 .chart .reading{color:var(--level-color);fill:var(--level-color)}
+  #s2[data-level="high"] #co2-message{display:block;padding:12px;border-radius:10px;background:var(--level-bg);color:var(--level-color);line-height:1.5;border-left:4px solid var(--level-color)}
+  .urgent-action{background:#b42318;color:white}
+  .alert.urgent{background:var(--urgent-bg);border:1px solid var(--urgent-line);border-left:6px solid var(--urgent-text);padding:20px}
+  .alert.urgent h2,.alert.urgent strong{color:var(--urgent-text)}
+  .alert.urgent h2{font-size:22px}
+  .urgent-message{font-size:18px;font-weight:700}
   .rating-legend{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
   .room-rating{display:block;margin-top:12px}
   .demo-refresh{padding:8px 12px;font-size:13px}
+  .place-shortcuts{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .place-shortcuts button{margin:0;padding:8px 12px;font-size:13px}
   .big-number{font-size:44px;font-weight:800;color:var(--teal);line-height:1}
   label{display:block;font-size:13px;font-weight:700;margin:16px 0 7px}
-  input{width:100%;padding:13px 14px;border:1px solid #bfcac6;border-radius:12px;font-size:16px}
+  input{width:100%;padding:13px 14px;border:1px solid var(--input-line);border-radius:12px;font-size:16px;background:var(--input);color:var(--ink)}
+  input::placeholder{color:var(--muted);opacity:1}
   button{width:auto;min-height:44px;padding:11px 20px;border-radius:10px;border:none;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;line-height:1.4}
   .primary{background:var(--teal);color:#fff}
   .accent{background:var(--green);color:#17333d}
   .warn{background:var(--orange);color:#352000}
-  .secondary{background:#edf2f0;color:var(--teal);border:1px solid var(--line)}
+  .secondary{background:var(--button-bg);color:var(--link);border:1px solid var(--line)}
   .linkbtn{background:transparent;color:var(--teal);padding:10px}
   .alert{background:#fff4e3;border:1px solid #f4c777;border-radius:16px;padding:16px;margin:14px 0}
   .alert strong{color:#7c4800}
@@ -58,25 +92,25 @@
   .room-item{cursor:pointer}
   .room-item:hover{border-color:#8bb2bf}
   .kv{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-  .mini{padding:12px;border-radius:12px;background:#f5f8f7}
+  .mini{padding:12px;border-radius:12px;background:var(--soft)}
   .mini span{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
   .mini strong{font-size:16px}
-  .chart{display:block;height:auto;width:100%;margin-top:8px;background:#fafcfb;border-radius:12px;border:1px solid var(--line)}
+  .chart{display:block;height:auto;width:100%;margin-top:8px;background:var(--soft);border-radius:12px;border:1px solid var(--line)}
   .chart text{font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:var(--muted)}
   .chart .reading{fill:var(--teal);font-weight:700}
   .chart-caption{font-size:12px;color:var(--muted);margin:8px 0 0}
-  .actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:24px;padding-top:18px;border-top:1px solid var(--line)}
+  .actions{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:24px;padding-top:18px;border-top:1px solid var(--line)}
   .actions button{margin:0}
   .actions-center{justify-content:center}
-  .footer-note{font-size:11px;color:#86949a;margin-top:18px;text-align:center}
+  .footer-note{font-size:11px;color:var(--muted);margin-top:18px;text-align:center}
   .step{font-size:12px;color:#789098;font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:.7px}
   [hidden]{display:none!important}
-  .error{color:var(--danger);background:#fff0eb;border:1px solid var(--danger);border-radius:12px;padding:12px;line-height:1.5;margin-top:12px}
+  .error{color:var(--danger);background:var(--urgent-bg);border:1px solid var(--danger);border-radius:12px;padding:12px;line-height:1.5;margin-top:12px}
   input[aria-invalid="true"]{border-color:var(--danger)}
-  button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+  button:focus-visible,input:focus-visible,a:focus-visible,select:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
   h1[tabindex="-1"]:focus{outline:none}
   .room-item{width:100%;padding:18px 20px;text-align:left;color:var(--ink);font-family:inherit;font-weight:400;white-space:normal}
-  .room-item::after{content:'View status →';display:block;margin-top:12px;color:var(--teal);font-size:13px;font-weight:700}
+  .room-item::after{content:attr(data-action-label);display:block;margin-top:12px;color:var(--link);font-size:13px;font-weight:700}
   .room-item .room-title{display:block;font-size:18px;font-weight:700;margin-bottom:8px}
   .room-item .muted{display:block}
   .row> :first-child{min-width:0;overflow-wrap:anywhere}
@@ -88,7 +122,7 @@
   .results-grid .card:only-child{grid-column:1/-1}
   .room-guide p{margin:8px 0}
   .source-note{font-size:12px;color:var(--muted);line-height:1.5}
-  a{color:var(--teal)}
+  a{color:var(--link)}
   @media(min-width:760px){
     header{padding:28px 40px}
     main{padding:32px 40px}
@@ -115,73 +149,94 @@
 <body>
 <div class="app">
   <header>
+    <div>
     <div class="brand">Class Sense</div>
-    <div class="tag">Smart CO₂ Monitoring</div>
+    <div class="tag" data-i18n="tag">Smart CO₂ Monitoring</div>
+    </div>
+    <div class="preferences">
+      <div>
+        <label for="language" data-i18n="language">Language</label>
+        <select id="language" onchange="setLanguage(this.value)">
+          <option value="en" lang="en">English</option>
+          <option value="ru" lang="ru">Русский</option>
+          <option value="kk" lang="kk">Қазақша</option>
+        </select>
+      </div>
+      <button id="theme-toggle" type="button" onclick="toggleTheme()" aria-pressed="false">Dark theme</button>
+    </div>
   </header>
   <main>
     <section class="screen" id="s0">
       <div class="step"></div>
-      <h1>Check a classroom</h1>
-      <p class="muted">Find a room and see its current CO₂ status.</p>
+      <h1 data-i18n="searchHeading">Check a room or space</h1>
+      <p class="muted" data-i18n="searchIntro">Find a classroom or shared space and see its CO₂ status.</p>
       <div class="search-layout">
       <form onsubmit="checkRoom(event)" novalidate>
-        <label for="room">Room number</label>
-        <input id="room" placeholder="Enter classroom" aria-label="Room number" aria-describedby="room-hint room-error" required maxlength="30" autocomplete="off" spellcheck="false" oninput="clearRoomError()" />
-        <p class="muted" id="room-hint">For example: C1.1.241K, 1.241K or 241. If several rooms match, choose your block.</p>
+        <label for="room" data-i18n="roomLabel">Room number or place name</label>
+        <input id="room" placeholder="Enter room or place" aria-describedby="room-hint room-error" required maxlength="60" autocomplete="off" spellcheck="false" oninput="clearRoomError()" />
+        <p class="muted" id="room-hint" data-i18n="roomHint">For example: C1.1.241K, 241 or Library. Search in English, Russian or Kazakh.</p>
         <div class="error" id="room-error" role="alert" hidden></div>
-        <button class="primary" type="submit">Check Classroom</button>
+        <button class="primary" type="submit" data-i18n="search">Search</button>
+        <div class="place-shortcuts" role="group" aria-label="Common spaces">
+          <button class="secondary" type="button" data-i18n="gym" onclick="searchPlace('gym')">Gym</button>
+          <button class="secondary" type="button" data-i18n="assembly-hall" onclick="searchPlace('assembly-hall')">Assembly Hall</button>
+          <button class="secondary" type="button" data-i18n="open-space" onclick="searchPlace('open-space')">Open Space</button>
+          <button class="secondary" type="button" data-i18n="library" onclick="searchPlace('library')">Library</button>
+          <button class="secondary" type="button" data-i18n="coworking" onclick="searchPlace('coworking')">Coworking</button>
+          <button class="secondary" type="button" data-i18n="dining-hall" onclick="searchPlace('dining-hall')">Dining Hall</button>
+        </div>
       </form>
       <div class="card room-guide">
-        <h2>How to read a room number</h2>
+        <h2 data-i18n="roomGuide">How to read a room number</h2>
         <p><strong>C1.1.241K</strong></p>
-        <p class="muted">C1 = pavilion · 1 = block · 2 = floor · 41 = room</p>
-        <p class="muted">K = Computer classroom<br>P = Practical classroom<br>L = Lecture room</p>
-        <p class="source-note">Room directory: <a href="https://yuujiso.github.io/aitumap/" target="_blank" rel="noopener noreferrer">AITU Map</a> by Yuujiso and meeezzanine. CO₂ readings in this prototype are demo data.</p>
+        <p class="muted" data-i18n="roomCode">C1 = pavilion · 1 = block · 2 = floor · 41 = room</p>
+        <p class="muted"><span data-i18n="guideK">K = Computer classroom</span><br><span data-i18n="guideP">P = Practical classroom</span><br><span data-i18n="guideL">L = Lecture room</span></p>
+        <p class="source-note"><span data-i18n="directorySource">Room directory:</span> <a href="https://yuujiso.github.io/aitumap/" target="_blank" rel="noopener noreferrer">AITU Map</a> · Yuujiso &amp; meeezzanine. <span data-i18n="demoNotice">CO₂ readings in this prototype are demo data.</span></p>
       </div>
       </div>
     </section>
 
     <section class="screen" id="s1">
       <div class="step"></div>
-      <h1>Search results</h1>
+      <h1 data-i18n="resultsHeading">Search results</h1>
       <p class="muted" id="result-count" aria-live="polite"></p>
       <div class="results-grid" id="room-results"></div>
       <div class="actions">
-        <button class="secondary" onclick="go(0)">← Back to search</button>
+        <button class="secondary" onclick="go(0)" data-i18n="backSearch">← Back to search</button>
       </div>
     </section>
 
     <section class="screen" id="s2">
       <div class="step"></div>
-      <div class="row"><h1>Classroom <span data-room-number></span></h1><span class="pill" id="co2-badge"></span></div>
+      <div class="row"><h1 data-location-name></h1><span class="pill" id="co2-badge"></span></div>
       <p class="muted" id="room-details"></p>
       <div class="detail-layout">
       <div>
       <div class="card status-card">
-        <div class="muted">Current CO₂</div>
+        <div class="muted" data-i18n="currentCO2">Current CO₂</div>
         <div class="big-number"><span id="co2-value"></span> <span style="font-size:18px">ppm</span></div>
         <p><strong id="co2-message" aria-live="polite"></strong></p>
-        <p class="muted">Random demo readings, not live sensor data.</p>
-        <button class="secondary demo-refresh" onclick="refreshDemo()">Refresh demo readings</button>
+        <p class="muted" data-i18n="randomDemo">Random demo readings, not live sensor data.</p>
+        <button class="secondary demo-refresh" onclick="refreshDemo()" data-i18n="refresh">Refresh demo readings</button>
       </div>
       <div class="kv">
-        <div class="mini"><span>Status</span><strong id="co2-status"></strong></div>
-        <div class="mini"><span>Updated</span><strong>Just now</strong></div>
+        <div class="mini"><span data-i18n="status">Status</span><strong id="co2-status"></strong></div>
+        <div class="mini"><span data-i18n="lastReading">Last reading</span><strong id="reading-time"></strong></div>
       </div>
-      <p class="muted">Demo rating ranges (ppm)</p>
+      <p class="muted" data-i18n="ratingRanges">Demo rating ranges (ppm)</p>
       <div class="rating-legend">
-        <span class="pill" data-level="low">Low: 400–699</span>
-        <span class="pill" data-level="normal">Normal: 700–999</span>
-        <span class="pill" data-level="high">High: 1,000–1,600</span>
+        <span class="pill" data-level="low"><span data-i18n="low">Low</span>: 400–699</span>
+        <span class="pill" data-level="normal"><span data-i18n="normal">Normal</span>: 700–999</span>
+        <span class="pill" data-level="high"><span data-i18n="high">High</span>: 1,000–1,600</span>
       </div>
       </div>
       <div class="card">
-        <h2>Recent trend</h2>
+        <h2 data-i18n="trend">Recent trend</h2>
         <svg class="chart" viewBox="0 0 360 245" role="img" aria-labelledby="trend-title trend-description">
-          <title id="trend-title">CO₂ readings over the last 25 minutes, in ppm</title>
+          <title id="trend-title" data-i18n="trendTitle">CO₂ readings over the last 25 minutes, in ppm</title>
           <desc id="trend-description"></desc>
           <text x="14" y="20">ppm</text>
-          <g stroke="#dce5e2" stroke-dasharray="3 4">
+          <g stroke="var(--line)" stroke-dasharray="3 4">
             <line x1="56" y1="40" x2="321" y2="40"/>
             <line x1="56" y1="80" x2="321" y2="80"/>
             <line x1="56" y1="120" x2="321" y2="120"/>
@@ -193,48 +248,48 @@
             <text x="46" y="124">1,000</text><text x="46" y="164">700</text><text x="46" y="204">400</text>
           </g>
           <g id="trend-plot"></g>
-          <g text-anchor="middle">
-            <text x="56" y="223">−25m</text><text x="109" y="223">−20m</text><text x="162" y="223">−15m</text>
-            <text x="215" y="223">−10m</text><text x="268" y="223">−5m</text><text x="321" y="223">Now</text>
-          </g>
+          <g id="trend-times" text-anchor="middle"></g>
         </svg>
-        <p class="chart-caption">Last 25 minutes · CO₂ in ppm · Demo data</p>
+        <p class="chart-caption" id="trend-caption"></p>
       </div>
       </div>
       <div class="actions">
-        <button class="secondary" onclick="go(1)">← Back to results</button>
-        <button class="warn" id="view-alert" onclick="go(3)" hidden>View alert →</button>
+        <button class="secondary" onclick="go(1)" data-i18n="backResults">← Back to results</button>
+        <button class="urgent-action" id="view-alert" onclick="go(3)" data-i18n="viewAlert" hidden>View urgent alert →</button>
       </div>
     </section>
 
     <section class="screen" id="s3">
       <div class="step"></div>
-      <h1>CO₂ alert</h1>
-      <div class="alert">
-        <strong>Classroom <span data-room-number></span> needs attention.</strong>
+      <h1 data-i18n="alertHeading">CO₂ alert</h1>
+      <div class="alert urgent" role="alert">
+        <h2 data-i18n="urgentHeading">Urgent: High CO₂ level</h2>
+        <p data-location-template="needsAttention"></p>
+        <p class="urgent-message" data-i18n="ventilateNow">Turn on ventilation immediately!</p>
         <p id="alert-reading"></p>
+        <p class="muted" data-i18n="demoAlert">Demo alert based on simulated readings.</p>
       </div>
       <div class="card">
-        <h2>Recommended action</h2>
-        <p>Ventilate the Classroom if possible, then continue monitoring the CO₂ status.</p>
+        <h2 data-i18n="recommendation">Recommended action</h2>
+        <p data-i18n="ventilationAdvice">Turn on the ventilation system immediately, then continue monitoring the CO₂ level.</p>
       </div>
       <div class="actions">
-        <button class="secondary" onclick="go(2)">← Back to classroom</button>
-        <button class="primary" onclick="go(4)">I started ventilation</button>
+        <button class="secondary" onclick="go(2)" data-i18n="backDetails">← Back to details</button>
+        <button class="primary" onclick="go(4)" data-i18n="startedVentilation">I started ventilation</button>
       </div>
     </section>
 
     <section class="screen" id="s4">
       <div class="step"></div>
-      <h1>Confirm action</h1>
-      <p>Record that ventilation has been started in <strong>Classroom <span data-room-number></span></strong>?</p>
+      <h1 data-i18n="confirmHeading">Confirm action</h1>
+      <p data-location-template="confirmPrompt"></p>
       <div class="card">
-        <h2>Why confirm?</h2>
-        <p class="muted">This extra step helps prevent accidental action records.</p>
+        <h2 data-i18n="whyConfirm">Why confirm?</h2>
+        <p class="muted" data-i18n="confirmReason">This extra step helps prevent accidental action records.</p>
       </div>
       <div class="actions">
-        <button class="secondary" onclick="go(3)">Cancel</button>
-        <button class="accent" onclick="go(5)">Confirm ventilation</button>
+        <button class="secondary" onclick="go(3)" data-i18n="cancel">Cancel</button>
+        <button class="accent" onclick="go(5)" data-i18n="confirmVentilation">Confirm ventilation</button>
       </div>
     </section>
 
@@ -242,18 +297,131 @@
       <div class="step"></div>
       <div class="success">✓</div>
       <div class="center">
-        <h1>Action recorded</h1>
-        <p>Ventilation has been marked as started for Classroom <span data-room-number></span>.</p>
-        <p class="muted">Class Sense will continue monitoring the classroom status.</p>
+        <h1 data-i18n="recordedHeading">Action recorded</h1>
+        <p data-location-template="recordedMessage"></p>
+        <p class="muted" data-i18n="continueMonitoring">Class Sense will continue monitoring this location.</p>
       </div>
       <div class="actions actions-center">
-        <button class="primary" onclick="go(0)">Back to dashboard</button>
+        <button class="primary" onclick="go(0)" data-i18n="backDashboard">Back to dashboard</button>
       </div>
-      <div class="footer-note">Interactive UX Sprint prototype • demo data only</div>
+      <div class="footer-note" data-i18n="footer">Interactive UX Sprint prototype • demo data only</div>
     </section>
   </main>
 </div>
 <script>
+const TRANSLATIONS={
+  en:{
+    pageTitle:'Class Sense – CO₂ Monitoring',tag:'Smart CO₂ Monitoring',language:'Language',darkTheme:'Dark theme',lightTheme:'Light theme',
+    searchHeading:'Check a room or space',searchIntro:'Find a classroom or shared space and see its CO₂ status.',roomLabel:'Room number or place name',placeholder:'Enter room or place',
+    roomHint:'For example: C1.1.241K, 241 or Library. Search in English, Russian or Kazakh.',search:'Search',commonSpaces:'Common spaces',
+    gym:'Gym','assembly-hall':'Assembly Hall','open-space':'Open Space',library:'Library',coworking:'Coworking','dining-hall':'Dining Hall',
+    'gym.description':'Shared space · Sports hall','assembly-hall.description':'Shared space · Events and assemblies','open-space.description':'Shared space · Open study area',
+    'library.description':'Shared space · Reading and study','coworking.description':'Shared space · Collaborative work area','dining-hall.description':'Shared space · Dining area',
+    roomGuide:'How to read a room number',roomCode:'C1 = pavilion · 1 = block · 2 = floor · 41 = room',
+    guideK:'K = Computer classroom',guideP:'P = Practical classroom',guideL:'L = Lecture room',directorySource:'Room directory:',demoNotice:'CO₂ readings in this prototype are demo data.',
+    resultsHeading:'Search results',resultOne:'1 location found. Select it to view its status.',resultMany:'Locations found: {count}. Choose your room or space.',viewStatus:'View status →',
+    backSearch:'← Back to search',backResults:'← Back to results',backDetails:'← Back to details',backDashboard:'Back to dashboard',
+    classroom:'Classroom {id}',roomDescription:'Pavilion C1 · Block {block} · Floor {floor} · {type}',typeK:'Computer classroom',typeP:'Practical classroom',typeL:'Lecture room',typeRoom:'Room',
+    currentCO2:'Current CO₂',randomDemo:'Random demo readings, not live sensor data.',refresh:'Refresh demo readings',status:'Status',lastReading:'Last reading',ratingRanges:'Demo rating ranges (ppm)',
+    low:'Low',normal:'Normal',high:'High',lowMessage:'Low CO₂ level. No alert.',normalMessage:'Normal CO₂ level. No alert.',highMessage:'High CO₂ level — turn on ventilation immediately!',
+    trend:'Recent trend',trendTitle:'CO₂ readings over the last 25 minutes, in ppm',trendDescription:'Random demo readings, local time: ',localTime:'Local time',demoData:'Demo data',demo:'Demo',
+    viewAlert:'View urgent alert →',alertHeading:'CO₂ alert',urgentHeading:'Urgent: High CO₂ level',needsAttention:'{room} needs immediate attention.',ventilateNow:'Turn on ventilation immediately!',
+    alertReading:'CO₂: {value} ppm at {time}. High level: 1,000 ppm or above in this prototype.',demoAlert:'Demo alert based on simulated readings.',
+    recommendation:'Recommended action',ventilationAdvice:'Turn on the ventilation system immediately, then continue monitoring the CO₂ level.',startedVentilation:'I started ventilation',
+    confirmHeading:'Confirm action',confirmPrompt:'Record that ventilation has been started in {room}?',whyConfirm:'Why confirm?',confirmReason:'This extra step helps prevent accidental action records.',
+    cancel:'Cancel',confirmVentilation:'Confirm ventilation',recordedHeading:'Action recorded',recordedMessage:'Ventilation has been marked as started for {room}.',continueMonitoring:'Class Sense will continue monitoring this location.',
+    footer:'Interactive UX Sprint prototype • demo data only',errorEmpty:'Error: Please enter a room number or place name.',errorNotFound:'Error: Room or place not found. Check the room number or choose one of the shared spaces.'
+  },
+  ru:{
+    pageTitle:'Class Sense — мониторинг CO₂',tag:'Умный мониторинг CO₂',language:'Язык',darkTheme:'Тёмная тема',lightTheme:'Светлая тема',
+    searchHeading:'Проверить помещение',searchIntro:'Найдите кабинет или общее пространство и узнайте уровень CO₂.',roomLabel:'Номер кабинета или название места',placeholder:'Введите кабинет или место',
+    roomHint:'Например: C1.1.241K, 241 или Библиотека. Поиск на русском, казахском и английском.',search:'Найти',commonSpaces:'Общие пространства',
+    gym:'Спортзал','assembly-hall':'Актовый зал','open-space':'Опен спейс',library:'Библиотека',coworking:'Коворкинг','dining-hall':'Столовая',
+    'gym.description':'Общее пространство · Спортивный зал','assembly-hall.description':'Общее пространство · Мероприятия и собрания','open-space.description':'Общее пространство · Открытая учебная зона',
+    'library.description':'Общее пространство · Чтение и учёба','coworking.description':'Общее пространство · Совместная работа','dining-hall.description':'Общее пространство · Зона питания',
+    roomGuide:'Как читать номер кабинета',roomCode:'C1 — павильон · 1 — блок · 2 — этаж · 41 — кабинет',
+    guideK:'K — компьютерная аудитория',guideP:'P — практическая аудитория',guideL:'L — лекционная аудитория',directorySource:'Справочник помещений:',demoNotice:'Показания CO₂ в этом прототипе демонстрационные.',
+    resultsHeading:'Результаты поиска',resultOne:'Найдено одно помещение. Выберите его для просмотра.',resultMany:'Найдено помещений: {count}. Выберите нужное.',viewStatus:'Посмотреть показатели →',
+    backSearch:'← К поиску',backResults:'← К результатам',backDetails:'← К показателям',backDashboard:'На главную',
+    classroom:'Кабинет {id}',roomDescription:'Павильон C1 · Блок {block} · Этаж {floor} · {type}',typeK:'Компьютерная аудитория',typeP:'Практическая аудитория',typeL:'Лекционная аудитория',typeRoom:'Кабинет',
+    currentCO2:'Текущий уровень CO₂',randomDemo:'Случайные демонстрационные показания, не данные датчиков.',refresh:'Обновить демоданные',status:'Уровень',lastReading:'Последнее измерение',ratingRanges:'Диапазоны уровней в прототипе (ppm)',
+    low:'Низкий',normal:'Нормальный',high:'Высокий',lowMessage:'Низкий уровень CO₂. Предупреждений нет.',normalMessage:'Нормальный уровень CO₂. Предупреждений нет.',highMessage:'Высокий уровень CO₂ — срочно включите вентиляцию!',
+    trend:'Динамика CO₂',trendTitle:'Показания CO₂ за последние 25 минут, в ppm',trendDescription:'Демонстрационные показания, местное время: ',localTime:'Местное время',demoData:'Демоданные',demo:'Демо',
+    viewAlert:'Срочное предупреждение →',alertHeading:'Предупреждение о CO₂',urgentHeading:'Срочно: высокий уровень CO₂',needsAttention:'Помещение «{room}» требует немедленного внимания.',ventilateNow:'Срочно включите вентиляцию!',
+    alertReading:'CO₂: {value} ppm в {time}. В этом прототипе высокий уровень начинается с 1 000 ppm.',demoAlert:'Демонстрационное предупреждение на основе сгенерированных показаний.',
+    recommendation:'Рекомендуемое действие',ventilationAdvice:'Срочно включите систему вентиляции и продолжайте следить за уровнем CO₂.',startedVentilation:'Я включил(а) вентиляцию',
+    confirmHeading:'Подтвердите действие',confirmPrompt:'Отметить включение вентиляции в помещении «{room}»?',whyConfirm:'Зачем подтверждение?',confirmReason:'Этот шаг помогает избежать случайного сохранения действия.',
+    cancel:'Отмена',confirmVentilation:'Подтвердить включение',recordedHeading:'Действие сохранено',recordedMessage:'В помещении «{room}» отмечено включение вентиляции.',continueMonitoring:'Class Sense продолжит отслеживать состояние помещения.',
+    footer:'Интерактивный прототип UX Sprint • демонстрационные данные',errorEmpty:'Ошибка: введите номер кабинета или название места.',errorNotFound:'Ошибка: помещение не найдено. Проверьте номер кабинета или выберите общее пространство.'
+  },
+  kk:{
+    pageTitle:'Class Sense — CO₂ мониторингі',tag:'CO₂ деңгейін ақылды бақылау',language:'Тіл',darkTheme:'Қараңғы тақырып',lightTheme:'Жарық тақырып',
+    searchHeading:'Бөлмені тексеру',searchIntro:'Аудиторияны немесе ортақ кеңістікті тауып, CO₂ деңгейін біліңіз.',roomLabel:'Аудитория нөмірі немесе орын атауы',placeholder:'Аудиторияны не орынды енгізіңіз',
+    roomHint:'Мысалы: C1.1.241K, 241 немесе Кітапхана. Қазақша, орысша және ағылшынша іздеуге болады.',search:'Іздеу',commonSpaces:'Ортақ кеңістіктер',
+    gym:'Спорт залы','assembly-hall':'Акт залы','open-space':'Ашық кеңістік',library:'Кітапхана',coworking:'Коворкинг','dining-hall':'Асхана',
+    'gym.description':'Ортақ кеңістік · Спорт залы','assembly-hall.description':'Ортақ кеңістік · Іс-шаралар мен жиналыстар','open-space.description':'Ортақ кеңістік · Ашық оқу аймағы',
+    'library.description':'Ортақ кеңістік · Кітап оқу және білім алу','coworking.description':'Ортақ кеңістік · Бірлесіп жұмыс істеу','dining-hall.description':'Ортақ кеңістік · Тамақтану аймағы',
+    roomGuide:'Аудитория нөмірін қалай оқу керек',roomCode:'C1 — павильон · 1 — блок · 2 — қабат · 41 — аудитория',
+    guideK:'K — компьютерлік аудитория',guideP:'P — практикалық аудитория',guideL:'L — дәріс аудиториясы',directorySource:'Бөлмелер анықтамалығы:',demoNotice:'Бұл прототиптегі CO₂ көрсеткіштері — демонстрациялық деректер.',
+    resultsHeading:'Іздеу нәтижелері',resultOne:'Бір орын табылды. Көрсеткіштерін көру үшін таңдаңыз.',resultMany:'Табылған орындар саны: {count}. Қажеттісін таңдаңыз.',viewStatus:'Көрсеткіштерді көру →',
+    backSearch:'← Іздеуге оралу',backResults:'← Нәтижелерге оралу',backDetails:'← Көрсеткіштерге оралу',backDashboard:'Басты бетке',
+    classroom:'Аудитория {id}',roomDescription:'C1 павильоны · {block}-блок · {floor}-қабат · {type}',typeK:'Компьютерлік аудитория',typeP:'Практикалық аудитория',typeL:'Дәріс аудиториясы',typeRoom:'Аудитория',
+    currentCO2:'Қазіргі CO₂ деңгейі',randomDemo:'Бұл — кездейсоқ демонстрациялық көрсеткіштер, сенсор деректері емес.',refresh:'Демодеректерді жаңарту',status:'Деңгей',lastReading:'Соңғы өлшеу',ratingRanges:'Прототиптегі деңгей аралықтары (ppm)',
+    low:'Төмен',normal:'Қалыпты',high:'Жоғары',lowMessage:'CO₂ деңгейі төмен. Ескерту жоқ.',normalMessage:'CO₂ деңгейі қалыпты. Ескерту жоқ.',highMessage:'CO₂ деңгейі жоғары — желдетуді дереу қосыңыз!',
+    trend:'CO₂ динамикасы',trendTitle:'Соңғы 25 минуттағы CO₂ көрсеткіштері, ppm',trendDescription:'Демонстрациялық көрсеткіштер, жергілікті уақыт: ',localTime:'Жергілікті уақыт',demoData:'Демодеректер',demo:'Демо',
+    viewAlert:'Шұғыл ескерту →',alertHeading:'CO₂ туралы ескерту',urgentHeading:'Шұғыл: CO₂ деңгейі жоғары',needsAttention:'«{room}» бөлмесіне дереу назар аударыңыз.',ventilateNow:'Желдетуді дереу қосыңыз!',
+    alertReading:'CO₂: {value} ppm, уақыт: {time}. Бұл прототипте жоғары деңгей 1 000 ppm-нен басталады.',demoAlert:'Жасанды көрсеткіштерге негізделген демонстрациялық ескерту.',
+    recommendation:'Ұсынылатын әрекет',ventilationAdvice:'Желдету жүйесін дереу қосып, CO₂ деңгейін бақылауды жалғастырыңыз.',startedVentilation:'Желдетуді қостым',
+    confirmHeading:'Әрекетті растаңыз',confirmPrompt:'«{room}» бөлмесінде желдетудің қосылғанын тіркеу керек пе?',whyConfirm:'Растау не үшін қажет?',confirmReason:'Бұл қадам әрекетті кездейсоқ тіркеуден сақтайды.',
+    cancel:'Бас тарту',confirmVentilation:'Қосылғанын растау',recordedHeading:'Әрекет тіркелді',recordedMessage:'«{room}» бөлмесінде желдетудің қосылғаны тіркелді.',continueMonitoring:'Class Sense осы бөлмені бақылауды жалғастырады.',
+    footer:'UX Sprint интерактивті прототипі • демонстрациялық деректер',errorEmpty:'Қате: аудитория нөмірін немесе орын атауын енгізіңіз.',errorNotFound:'Қате: бөлме табылмады. Аудитория нөмірін тексеріңіз немесе ортақ кеңістікті таңдаңыз.'
+  }
+};
+function readPreference(key,fallback){try{return localStorage.getItem(key)||fallback;}catch{return fallback;}}
+function savePreference(key,value){try{localStorage.setItem(key,value);}catch{}}
+const savedLanguage=readPreference('classsense.language','en');
+let language=Object.hasOwn(TRANSLATIONS,savedLanguage)?savedLanguage:'en';
+let theme=readPreference('classsense.theme','light')==='dark'?'dark':'light';
+let roomErrorKey='';
+function t(key,values={}){
+  return (TRANSLATIONS[language][key] || TRANSLATIONS.en[key] || key).replace(/\{(\w+)\}/g,(match,name)=>values[name]??match);
+}
+function applyTheme(){
+  document.documentElement.dataset.theme=theme;
+  const button=document.getElementById('theme-toggle');
+  button.textContent=t(theme==='dark'?'lightTheme':'darkTheme');
+  button.setAttribute('aria-pressed',String(theme==='dark'));
+}
+function toggleTheme(){theme=theme==='light'?'dark':'light';savePreference('classsense.theme',theme);applyTheme();}
+function setLanguage(value){
+  if(!Object.hasOwn(TRANSLATIONS,value)) return;
+  language=value;
+  savePreference('classsense.language',language);
+  applyLanguage();
+}
+function applyLanguage(){
+  document.documentElement.lang=language;
+  document.title=t('pageTitle');
+  document.getElementById('language').value=language;
+  document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.dataset.i18n));
+  document.getElementById('room').placeholder=t('placeholder');
+  document.querySelector('.place-shortcuts').setAttribute('aria-label',t('commonSpaces'));
+  if(roomErrorKey) document.getElementById('room-error').textContent=t(roomErrorKey);
+  if(matchingRooms.length) renderResults();
+  if(selectedRoom){renderLocationText();renderRoomStatus();}
+  applyTheme();
+}
+function renderLocationText(){
+  const name=locationName(selectedRoom);
+  document.querySelectorAll('[data-location-name]').forEach(el=>el.textContent=name);
+  document.querySelectorAll('[data-location-template]').forEach(el=>{
+    const [before,after]=t(el.dataset.locationTemplate).split('{room}');
+    const strong=document.createElement('strong');
+    strong.textContent=name;
+    el.replaceChildren(document.createTextNode(before),strong,document.createTextNode(after||''));
+  });
+  document.getElementById('room-details').textContent=roomDescription(selectedRoom);
+}
 // Numbered rooms from AITU Map; the shortened source label 1.352K is normalized.
 // https://github.com/Yuujiso/aitumap
 const ROOM_DIRECTORY = [
@@ -516,20 +684,43 @@ const ROOM_DIRECTORY = [
   "C1.3.367K",
   "C1.3.370L"
 ];
-const ROOM_TYPES={K:'Computer classroom',P:'Practical classroom',L:'Lecture room'};
+const SHARED_SPACES=[
+  {id:'gym',aliases:['gym','sports hall','sport hall','спортзал','спортивный зал','спорт зал','спорт залы','спортзалы']},
+  {id:'assembly-hall',aliases:['assembly hall','assembly','auditorium','актовый зал','актовый','актовыйзал','акт залы','мәжіліс залы']},
+  {id:'open-space',aliases:['open space','openspace','опен спейс','оупен спейс','опенспейс','открытое пространство','ашық кеңістік','ашық алаң']},
+  {id:'library',aliases:['library','библиотека','биоблетека','библетека','библиатека','медиатека','mediateka','biblioteka','кітапхана','китапхана']},
+  {id:'coworking',aliases:['coworking','co-working','coworking space','коворкинг','коверкинг','коворкинг зона','atameken','атамекен','бірлескен жұмыс аймағы']},
+  {id:'dining-hall',aliases:['dining hall','dining','canteen','cafeteria','столовая','столовый','столовка','асхана']}
+];
+function locationName(id){
+  return SHARED_SPACES.some(space=>space.id===id)?t(id):t('classroom',{id});
+}
+function normalizePlace(value){return value.trim().toLowerCase().replace(/ё/g,'е').replace(/[\s_-]+/g,'');}
+function searchPlace(name){
+  const input=document.getElementById('room');
+  input.value=SHARED_SPACES.some(space=>space.id===name)?t(name):name;
+  input.form.requestSubmit();
+}
 // These ranges are prototype categories, not an air-quality standard.
 const CO2_MIN=400, CO2_MAX=1600;
 const DEMO_BANDS=[[400,699],[700,999],[1000,1600]];
-const CO2_LEVELS={
-  low:{label:'Low',message:'Low CO₂ level. No alert.'},
-  normal:{label:'Normal',message:'Normal CO₂ level. No alert.'},
-  high:{label:'High',message:'High CO₂ level detected. View the alert.'}
-};
 const roomReadings=new Map();
+const roomReadingTimes=new Map();
+const READING_INTERVAL=5*60*1000;
 let selectedRoom='';
 let matchingRooms=[];
 function co2Level(value){return value<700?'low':value<1000?'normal':'high';}
-function formatPpm(value){return value.toLocaleString('en-US');}
+function formatPpm(value){return value.toLocaleString({en:'en-US',ru:'ru-RU',kk:'kk-KZ'}[language]);}
+function formatTime(timestamp){
+  const date=new Date(timestamp);
+  return `${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')}`;
+}
+function formatDate(timestamp){return new Date(timestamp).toLocaleDateString({en:'en-GB',ru:'ru-RU',kk:'kk-KZ'}[language]);}
+function updateDemoReadings(id){
+  roomReadings.set(id,generateReadings());
+  // Keep timestamps with their sample values so navigating back does not change history.
+  roomReadingTimes.set(id,Math.floor(Date.now()/READING_INTERVAL)*READING_INTERVAL);
+}
 function randomInt(min,max){return min+Math.floor(Math.random()*(max-min+1));}
 function generateReadings(){
   const [min,max]=DEMO_BANDS[randomInt(0,2)];
@@ -540,42 +731,57 @@ function generateReadings(){
   }
   return readings;
 }
-function renderTrend(readings){
+function renderTrend(readings,sampledAt){
+  const times=readings.map((_,i)=>sampledAt-(readings.length-1-i)*READING_INTERVAL);
   const points=readings.map((value,i)=>({x:56+i*53,y:200-(value-CO2_MIN)/(CO2_MAX-CO2_MIN)*160,value}));
   const path=points.map(p=>`${p.x},${p.y}`).join(' ');
   document.getElementById('trend-plot').innerHTML=`
     <polygon points="${path} 321,200 56,200" fill="var(--level-color)" opacity=".07"/>
     <polyline points="${path}" fill="none" stroke="var(--level-color)" stroke-width="3" stroke-linejoin="round"/>
-    ${points.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="${i===5?5:4}" fill="var(--level-color)" stroke="white" stroke-width="2"/>
+    ${points.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="${i===5?5:4}" fill="var(--level-color)" stroke="var(--card)" stroke-width="2"/>
       <text class="reading" x="${p.x}" y="${p.y-(i===0?22:12)}" text-anchor="${i===0?'start':'middle'}">${formatPpm(p.value)}</text>`).join('')}`;
-  document.getElementById('trend-description').textContent='Random demo readings: '+readings.map((value,i)=>`${i===5?'now':(25-i*5)+' minutes ago'}, ${formatPpm(value)} ppm`).join('; ')+'.';
+  document.getElementById('trend-times').innerHTML=times.map((time,i)=>`<text x="${56+i*53}" y="223">${formatTime(time)}</text>`).join('');
+  document.getElementById('trend-description').textContent=t('trendDescription')+readings.map((value,i)=>`${formatDate(times[i])} ${formatTime(times[i])}, ${formatPpm(value)} ppm`).join('; ')+'.';
+  const first=times[0],last=times[times.length-1];
+  const range=formatDate(first)===formatDate(last)
+    ? `${formatDate(last)} · ${formatTime(first)}–${formatTime(last)}`
+    : `${formatDate(first)} ${formatTime(first)} – ${formatDate(last)} ${formatTime(last)}`;
+  document.getElementById('trend-caption').textContent=`${range} · ${t('localTime')} · CO₂ (ppm) · ${t('demoData')}`;
 }
 function renderRoomStatus(){
   const readings=roomReadings.get(selectedRoom);
   const current=readings[readings.length-1];
-  const level=co2Level(current), status=CO2_LEVELS[level];
+  const level=co2Level(current);
   document.getElementById('s2').dataset.level=level;
   const badge=document.getElementById('co2-badge');
   badge.dataset.level=level;
-  badge.textContent=status.label;
+  badge.textContent=t(level);
   document.getElementById('co2-value').textContent=formatPpm(current);
-  document.getElementById('co2-status').textContent=status.label;
-  document.getElementById('co2-message').textContent=status.message;
+  document.getElementById('co2-status').textContent=t(level);
+  document.getElementById('co2-message').textContent=t(level+'Message');
   document.getElementById('view-alert').hidden=level!=='high';
-  document.getElementById('alert-reading').textContent=`Current demo reading: ${formatPpm(current)} ppm. The High category starts at 1,000 ppm in this prototype.`;
-  renderTrend(readings);
+  const sampledAt=roomReadingTimes.get(selectedRoom);
+  const timeLabel=document.getElementById('reading-time');
+  timeLabel.textContent=formatTime(sampledAt);
+  timeLabel.title=`${formatDate(sampledAt)} ${formatTime(sampledAt)} (${t('localTime')})`;
+  document.getElementById('alert-reading').textContent=t('alertReading',{value:formatPpm(current),time:formatTime(sampledAt)});
+  renderTrend(readings,sampledAt);
 }
 function refreshDemo(){
   if(!selectedRoom || !roomReadings.has(selectedRoom)) return;
-  roomReadings.set(selectedRoom,generateReadings());
+  updateDemoReadings(selectedRoom);
   renderResults();
   renderRoomStatus();
 }
 function findRooms(value){
+  const placeQuery=normalizePlace(value);
+  const spaces=placeQuery.length>=2
+    ? SHARED_SPACES.filter(space=>[...space.aliases,...Object.values(TRANSLATIONS).map(dict=>dict[space.id])].some(alias=>normalizePlace(alias).includes(placeQuery))).map(space=>space.id)
+    : [];
   const query=value.trim().toUpperCase().replace(/\u0421/g,'C').replace(/\u041a/g,'K').replace(/\u0420/g,'P');
   // Accept a complete identifier, block + room, or an exact room number.
   const match=/^(?:(?:C1\.)?([123])\.)?([123]\d{2})([KPL]?)$/.exec(query);
-  if(!match) return [];
+  if(!match) return spaces;
   const [,block,number,type]=match;
   return ROOM_DIRECTORY.filter(id=>{
     const parts=id.split('.');
@@ -583,11 +789,15 @@ function findRooms(value){
   });
 }
 function roomDescription(id){
+  const space=SHARED_SPACES.find(space=>space.id===id);
+  if(space) return t(space.id+'.description');
   const [,block,number]=id.split('.');
-  const type=ROOM_TYPES[number.slice(3)] || 'Room';
-  return `Pavilion C1 · Block ${block} · Floor ${number[0]} · ${type}`;
+  const suffix=number.slice(3);
+  const type=t(suffix?'type'+suffix:'typeRoom');
+  return t('roomDescription',{block,floor:number[0],type});
 }
 function clearRoomError(){
+  roomErrorKey='';
   document.getElementById('room-error').hidden=true;
   document.getElementById('room').removeAttribute('aria-invalid');
 }
@@ -596,37 +806,36 @@ function checkRoom(event){
   const input=document.getElementById('room');
   selectedRoom='';
   roomReadings.clear();
+  roomReadingTimes.clear();
   matchingRooms=findRooms(input.value);
   clearRoomError();
   const results=document.getElementById('room-results');
   results.replaceChildren();
   if(!matchingRooms.length){
     const error=document.getElementById('room-error');
-    error.textContent=input.value.trim()
-      ? 'Error: Classroom not found in the AITU Map directory. Check the block, room number and letter. Example: C1.1.241K.'
-      : 'Error: Please enter a classroom.';
+    roomErrorKey=input.value.trim()?'errorNotFound':'errorEmpty';
+    error.textContent=t(roomErrorKey);
     error.hidden=false;
     input.setAttribute('aria-invalid','true');
     input.focus();
     return;
   }
-  document.getElementById('result-count').textContent=matchingRooms.length===1
-    ? '1 classroom found. Select it to view its status.'
-    : `${matchingRooms.length} classrooms found. Choose your block and classroom.`;
-  matchingRooms.forEach(id=>roomReadings.set(id,generateReadings()));
+  matchingRooms.forEach(updateDemoReadings);
   renderResults();
   go(1);
 }
 function renderResults(){
+  document.getElementById('result-count').textContent=t(matchingRooms.length===1?'resultOne':'resultMany',{count:matchingRooms.length});
   const results=document.getElementById('room-results');
   results.replaceChildren();
   matchingRooms.forEach(id=>{
     const button=document.createElement('button');
     button.type='button';
     button.className='card room-item';
+    button.dataset.actionLabel=t('viewStatus');
     const title=document.createElement('span');
     title.className='room-title';
-    title.textContent=`Classroom ${id}`;
+    title.textContent=locationName(id);
     const details=document.createElement('span');
     details.className='muted';
     details.textContent=roomDescription(id);
@@ -637,7 +846,7 @@ function renderResults(){
     const badge=document.createElement('span');
     badge.className='pill';
     badge.dataset.level=level;
-    badge.textContent=`${CO2_LEVELS[level].label} · ${formatPpm(current)} ppm · Demo`;
+    badge.textContent=`${t(level)} · ${formatPpm(current)} ppm · ${t('demo')}`;
     rating.append(badge);
     button.append(title,details,rating);
     button.addEventListener('click',()=>selectRoom(id));
@@ -645,10 +854,9 @@ function renderResults(){
   });
 }
 function selectRoom(id){
-  if(!ROOM_DIRECTORY.includes(id) || !matchingRooms.includes(id)) return;
+  if(!(ROOM_DIRECTORY.includes(id) || SHARED_SPACES.some(space=>space.id===id)) || !matchingRooms.includes(id)) return;
   selectedRoom=id;
-  document.querySelectorAll('[data-room-number]').forEach(x=>x.textContent=id);
-  document.getElementById('room-details').textContent=roomDescription(id);
+  renderLocationText();
   renderRoomStatus();
   go(2);
 }
@@ -666,6 +874,7 @@ function go(n){
   const u=new URL(window.location.href); u.searchParams.set('screen',n); history.replaceState({},'',u);
 }
 const start=Math.max(0,Math.min(5,parseInt(new URLSearchParams(location.search).get('screen')||'0',10)));
+applyLanguage();
 go(start);
 </script>
 </body>
