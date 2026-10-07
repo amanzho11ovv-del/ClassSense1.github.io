@@ -441,6 +441,7 @@
 <dialog id="account-dialog" aria-labelledby="account-heading">
   <div class="dialog-heading"><h2 id="account-heading" data-i18n="accountHeading">Your account</h2><button class="icon-button" id="account-close" type="button" onclick="closeAccount()" aria-label="Close"><svg class="icon" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
   <p class="muted" id="account-intro" data-i18n="accountIntro">Sign in once. Your name will be added to ventilation confirmations automatically.</p>
+  <p class="form-message" id="demo-account-note" data-i18n="demoAccountNote" hidden></p>
   <div class="auth-tabs" id="auth-tabs" role="group" aria-label="Sign in or register">
     <button type="button" id="signin-tab" onclick="setAuthMode('signin')" aria-pressed="true" data-i18n="signIn">Sign in</button>
     <button type="button" id="signup-tab" onclick="setAuthMode('signup')" aria-pressed="false" data-i18n="register">Register</button>
@@ -460,6 +461,8 @@
 // Public project settings only. Never put a service_role or sb_secret key here.
 // Setup instructions: ClassSense_Supabase_Setup.md
 const SUPABASE_CONFIG={url:'https://rafkwhyjrcgsckearmdp.supabase.co',publishableKey:'sb_publishable_SwPHMIQ9JAARp9QLwr8Yrg_LHrWl8Ol'};
+// Prototype accounts and history stay on this device. No Supabase Auth requests in demo mode.
+const DEMO_MODE=true;
 const TRANSLATIONS={
   en:{
     pageTitle:'Class Sense – CO₂ Monitoring',tag:'Smart CO₂ Monitoring',language:'Language',darkTheme:'Dark theme',lightTheme:'Light theme',
@@ -564,6 +567,56 @@ Object.assign(TRANSLATIONS.kk,{
   historyHeading:'Желдету тарихы',historyExplanation:'CO₂ демонстрациялық көрсеткіштері бар пайдаланушы растаулары.',historyLogin:'Осы бөлменің тарихын көру үшін кіріңіз.',historyUnavailable:'Тарих әлі қосылмаған.',historyLoading:'Тарих жүктелуде…',historyEmpty:'Бұл бөлмеде желдетуді растау әлі жоқ.',historyFailed:'Тарихты жүктеу мүмкін болмады. Қайталап көріңіз.',historyRefresh:'Тарихты жаңарту',historyLimit:'Соңғы 20 растау. Уақыт сіздің уақыт белдеуіңізде көрсетілген.',
   historyAction:'{name} желдетудің қосылғанын растады.',lastVentilation:'Соңғы растау: {name} · {date} {time}',recordedMessage:'«{room}» бөлмесінде желдетудің қосылғаны туралы растау сақталды.',continueMonitoring:'CO₂ демокөрсеткіштерін көруді жалғастыру үшін бөлмеге оралыңыз.'
 });
+Object.assign(TRANSLATIONS.en,{
+  authEmailRateLimit:'The confirmation-email limit has been reached. Wait before trying again; repeated clicks will not speed up delivery.',
+  authEmailRestricted:'A confirmation email cannot be sent to this address. Contact the site administrator to enable email delivery.',
+  authInvalidEmail:'Enter a real, valid email address.',authEmailUnconfirmed:'Confirm your email using the link in your inbox before signing in.',
+  authWeakPassword:'This password does not meet the account requirements. Use a longer, stronger password.',authSignupDisabled:'Registration is currently disabled. Contact the site administrator.',
+  authServiceError:'The account service could not complete the request. Try later or contact the site administrator.',authSamePassword:'Choose a new password different from your current password.',
+  authRetryIn:'Try again in {seconds}s',authRateLimit:'Too many requests. Wait before trying again; the service may need longer than the button’s pause.'
+});
+Object.assign(TRANSLATIONS.ru,{
+  authEmailRateLimit:'Достигнут лимит отправки писем подтверждения. Подождите перед повторной попыткой: повторные нажатия не ускорят отправку.',
+  authEmailRestricted:'На этот адрес нельзя отправить письмо подтверждения. Обратитесь к администратору сайта для настройки отправки писем.',
+  authInvalidEmail:'Введите действующий адрес электронной почты.',authEmailUnconfirmed:'Перед входом подтвердите почту по ссылке в письме.',
+  authWeakPassword:'Пароль не соответствует требованиям аккаунта. Используйте более длинный и сложный пароль.',authSignupDisabled:'Регистрация сейчас отключена. Обратитесь к администратору сайта.',
+  authServiceError:'Сервис аккаунтов не смог выполнить запрос. Попробуйте позже или обратитесь к администратору сайта.',authSamePassword:'Новый пароль должен отличаться от текущего.',
+  authRetryIn:'Повторить через {seconds} с',authRateLimit:'Слишком много запросов. Подождите перед повторной попыткой: ограничение сервиса может действовать дольше паузы на кнопке.'
+});
+Object.assign(TRANSLATIONS.kk,{
+  authEmailRateLimit:'Растау хаттарын жіберу шегіне жетті. Қайталап көрмес бұрын күтіңіз: қайта басу хаттың жіберілуін жылдамдатпайды.',
+  authEmailRestricted:'Бұл мекенжайға растау хатын жіберу мүмкін емес. Хат жіберуді баптау үшін сайт әкімшісіне хабарласыңыз.',
+  authInvalidEmail:'Жарамды электрондық пошта мекенжайын енгізіңіз.',authEmailUnconfirmed:'Кірмес бұрын хаттағы сілтеме арқылы поштаңызды растаңыз.',
+  authWeakPassword:'Құпиясөз аккаунт талаптарына сай емес. Ұзынырақ және күрделірек құпиясөз қолданыңыз.',authSignupDisabled:'Тіркелу қазір өшірілген. Сайт әкімшісіне хабарласыңыз.',
+  authServiceError:'Аккаунт қызметі сұрауды орындай алмады. Кейінірек қайталаңыз немесе сайт әкімшісіне хабарласыңыз.',authSamePassword:'Жаңа құпиясөз қазіргі құпиясөзден өзгеше болуы керек.',
+  authRetryIn:'{seconds} с кейін қайталау',authRateLimit:'Сұраулар тым көп. Қайталап көрмес бұрын күтіңіз: қызмет шектеуі батырмадағы үзілістен ұзағырақ болуы мүмкін.'
+});
+if(DEMO_MODE){
+  Object.assign(TRANSLATIONS.en,{
+    accountIntro:'Enter any email address and any non-empty password to try the prototype. No email confirmation is needed.',
+    demoAccountNote:'Demo account · Stored on this device. Passwords are not checked or saved.',
+    profileIntro:'Demo profile. Your name is added to local ventilation confirmations automatically.',
+    historyExplanation:'Local prototype history on this device. Confirmations and CO₂ readings are demo data.',
+    historyLimit:'Latest 20 local confirmations. Times are shown in your local timezone.',
+    savedSummary:'{name} · {date} {time} · CO₂: {value} ppm · Local demo record'
+  });
+  Object.assign(TRANSLATIONS.ru,{
+    accountIntro:'Введите любую почту и любой непустой пароль, чтобы попробовать прототип. Подтверждать почту не нужно.',
+    demoAccountNote:'Демоаккаунт · На этом устройстве. Пароли не проверяются и не сохраняются.',
+    profileIntro:'Демонстрационный профиль. Ваше имя автоматически добавляется к локальным подтверждениям вентиляции.',
+    historyExplanation:'Локальная история прототипа на этом устройстве. Подтверждения и показания CO₂ демонстрационные.',
+    historyLimit:'Последние 20 локальных подтверждений. Время указано в вашем часовом поясе.',
+    savedSummary:'{name} · {date} {time} · CO₂: {value} ppm · Локальная демозапись'
+  });
+  Object.assign(TRANSLATIONS.kk,{
+    accountIntro:'Прототипті сынау үшін кез келген пошта мекенжайын және бос емес құпиясөзді енгізіңіз. Поштаны растау қажет емес.',
+    demoAccountNote:'Демоаккаунт · Осы құрылғыда сақталады. Құпиясөздер тексерілмейді және сақталмайды.',
+    profileIntro:'Демонстрациялық профиль. Атыңыз жергілікті желдету растауларына автоматты түрде қосылады.',
+    historyExplanation:'Осы құрылғыдағы прототиптің жергілікті тарихы. Растаулар мен CO₂ көрсеткіштері демонстрациялық.',
+    historyLimit:'Соңғы 20 жергілікті растау. Уақыт сіздің уақыт белдеуіңізде көрсетілген.',
+    savedSummary:'{name} · {date} {time} · CO₂: {value} ppm · Жергілікті деможазба'
+  });
+}
 function readPreference(key,fallback){try{return localStorage.getItem(key)||fallback;}catch{return fallback;}}
 function savePreference(key,value){try{localStorage.setItem(key,value);}catch{}}
 const savedLanguage=readPreference('classsense.language','en');
@@ -1082,9 +1135,30 @@ function go(n){
 // Supabase Auth manages session persistence and token refresh. Passwords are never saved by this page.
 let supabaseClient=null,clientPromise=null,sdkPromise=null;
 let authUser=null,profileName='',authMode='signin',authBusy=false,authMessageKey='',authMessageError=false;
+let authLastErrorCode='',authCooldownTimer=null;
+let authCooldowns={};
+try{const stored=JSON.parse(readPreference('classsense.auth.cooldowns','{}'));if(stored&&typeof stored==='object') authCooldowns=stored;}catch{}
 let authVersion=0,pendingLoginLocation='';
 let ventilationSaving=false,ventilationErrorKey='',pendingVentilation=null,savedRecord=null;
 let historyVersion=0,historyRows=[],historyStateKey='historyUnavailable';
+function accountsAvailable(){return DEMO_MODE||backendConfigured();}
+function demoUser(email,name){
+  const normalized=email.trim().toLowerCase();
+  let names={};
+  try{const stored=JSON.parse(readPreference('classsense.demo.names','{}'));if(stored&&typeof stored==='object'&&!Array.isArray(stored)) names=stored;}catch{}
+  const remembered=Object.hasOwn(names,normalized)&&typeof names[normalized]==='string'?names[normalized]:'';
+  const displayName=(name||remembered||normalized.split('@')[0]).slice(0,60);
+  names[normalized]=displayName;
+  savePreference('classsense.demo.names',JSON.stringify(names));
+  const user={id:'demo:'+normalized,email:normalized,user_metadata:{display_name:displayName},is_demo:true};
+  savePreference('classsense.demo.session',JSON.stringify(user));
+  return user;
+}
+function readDemoRecords(){
+  const rows=JSON.parse(localStorage.getItem('classsense.demo.ventilation')||'[]');
+  if(!Array.isArray(rows)) throw new Error('Invalid local history');
+  return rows.filter(row=>row&&typeof row.id==='string'&&typeof row.location_id==='string'&&typeof row.display_name==='string'&&Number.isInteger(row.co2_ppm)&&row.is_demo===true&&!Number.isNaN(Date.parse(row.created_at)));
+}
 function backendConfigured(){
   if(!/^https:\/\/[^/]+\/?$/.test(SUPABASE_CONFIG.url)) return false;
   const key=SUPABASE_CONFIG.publishableKey;
@@ -1104,6 +1178,7 @@ function loadSupabaseSdk(){
   return sdkPromise;
 }
 async function getBackend(){
+  if(DEMO_MODE) throw new Error('Remote accounts are disabled in demo mode');
   if(!backendConfigured()) throw new Error('Not configured');
   if(supabaseClient) return supabaseClient;
   if(clientPromise) return clientPromise;
@@ -1128,7 +1203,7 @@ async function syncAccount(session,event){
   const version=++authVersion;
   const previousId=authUser?.id;
   authUser=session?.user||null;
-  if(!authUser){profileName='';pendingVentilation=null;historyVersion++;historyRows=[];historyStateKey=backendConfigured()?'historyLogin':'historyUnavailable';}
+  if(!authUser){profileName='';pendingVentilation=null;historyVersion++;historyRows=[];historyStateKey=accountsAvailable()?'historyLogin':'historyUnavailable';}
   else if(previousId!==authUser.id){profileName='';historyRows=[];historyStateKey='historyLoading';pendingVentilation=null;}
   renderAccountUi();renderRecordUi();renderVentilationHistory();
   if(event==='PASSWORD_RECOVERY') {setAuthMode('recovery');document.getElementById('account-dialog').showModal();}
@@ -1136,6 +1211,7 @@ async function syncAccount(session,event){
     if(document.getElementById('s4').classList.contains('active')&&!ventilationSaving) go(3);
     return;
   }
+  if(DEMO_MODE){profileName=authUser.user_metadata.display_name;renderAccountUi();renderRecordUi();if(selectedRoom) loadVentilationHistory();return;}
   if(previousId===authUser.id&&profileName&&event!=='USER_UPDATED') return;
   try{
     const client=await getBackend();
@@ -1147,7 +1223,29 @@ async function syncAccount(session,event){
   }catch{/* The account can be retried without blocking room readings. */}
 }
 function accountName(){return profileName||authUser?.user_metadata?.display_name||t('accountHeading');}
-function setAuthMessage(key,error=false){authMessageKey=key;authMessageError=error;renderAccountUi();}
+function setAuthMessage(key,error=false){authMessageKey=key;authMessageError=error;if(!error) authLastErrorCode='';renderAccountUi();}
+function authCooldownRemaining(){
+  if(DEMO_MODE) return 0;
+  const relevant=[authCooldowns[authMode],...(['signup','reset'].includes(authMode)?[authCooldowns.email]:[])];
+  const until=Math.max(0,...relevant.map(value=>Number.isFinite(value)?value:0));
+  return Math.max(0,Math.ceil((until-Date.now())/1000));
+}
+function pauseAuthRequests(mode,emailLimit=false){
+  authCooldowns[emailLimit?'email':mode]=Date.now()+60000;
+  savePreference('classsense.auth.cooldowns',JSON.stringify(authCooldowns));
+}
+function authErrorMessage(error,mode){
+  const messages={
+    over_email_send_rate_limit:'authEmailRateLimit',email_address_not_authorized:'authEmailRestricted',email_address_invalid:'authInvalidEmail',
+    email_not_confirmed:'authEmailUnconfirmed',weak_password:'authWeakPassword',same_password:'authSamePassword',
+    signup_disabled:'authSignupDisabled',email_provider_disabled:'authSignupDisabled',over_request_rate_limit:'authRateLimit',
+    unexpected_failure:'authServiceError'
+  };
+  if(messages[error.code]) return messages[error.code];
+  if(error.status===429) return 'authRateLimit';
+  if(error.status>=500) return 'authServiceError';
+  return !error.status?'authNetwork':mode==='signup'?'authSignupFailed':mode==='signin'?'authFailed':'authNetwork';
+}
 function renderAccountUi(){
   const signedIn=!!authUser&&authMode!=='recovery';
   const registering=authMode==='signup',resetting=authMode==='reset',recovering=authMode==='recovery';
@@ -1161,6 +1259,7 @@ function renderAccountUi(){
   document.getElementById('auth-form').hidden=signedIn;
   document.getElementById('account-profile').hidden=!signedIn;
   document.getElementById('account-intro').hidden=signedIn||recovering;
+  document.getElementById('demo-account-note').hidden=!DEMO_MODE;
   document.getElementById('profile-name').textContent=authUser?accountName():'';
   document.getElementById('profile-email').textContent=authUser?.email||'';
   document.getElementById('auth-name-field').hidden=!registering;
@@ -1169,56 +1268,66 @@ function renderAccountUi(){
   document.getElementById('auth-email').required=!recovering;
   document.getElementById('auth-password-field').hidden=resetting;
   const password=document.getElementById('auth-password');
-  password.required=!resetting;password.minLength=registering||recovering?8:1;
+  password.required=!resetting;password.minLength=!DEMO_MODE&&(registering||recovering)?8:1;
   password.autocomplete=registering||recovering?'new-password':'current-password';
   document.getElementById('password-label').textContent=t(recovering?'newPassword':'passwordLabel');
-  document.getElementById('password-hint').hidden=!registering&&!recovering;
-  document.getElementById('forgot-password').hidden=authMode!=='signin';
+  document.getElementById('password-hint').hidden=DEMO_MODE||(!registering&&!recovering);
+  document.getElementById('forgot-password').hidden=DEMO_MODE||authMode!=='signin';
   document.getElementById('return-signin').hidden=!resetting;
   document.getElementById('signin-tab').setAttribute('aria-pressed',String(!registering));
   document.getElementById('signup-tab').setAttribute('aria-pressed',String(registering));
-  document.getElementById('auth-submit').textContent=t(authBusy?'authWorking':registering?'register':resetting?'sendReset':recovering?'savePassword':'signIn');
+  const cooldown=authCooldownRemaining();
+  document.getElementById('auth-submit').textContent=authBusy?t('authWorking'):cooldown?t('authRetryIn',{seconds:cooldown}):t(registering?'register':resetting?'sendReset':recovering?'savePassword':'signIn');
   document.querySelectorAll('#account-dialog button,#account-dialog input').forEach(el=>el.disabled=authBusy||ventilationSaving);
-  if(!backendConfigured()) document.getElementById('auth-submit').disabled=true;
+  if(!accountsAvailable()||cooldown) document.getElementById('auth-submit').disabled=true;
   const message=document.getElementById('account-message');
-  const key=authMessageKey||(!backendConfigured()?'authUnavailable':'');
+  const key=authMessageKey||(!accountsAvailable()?'authUnavailable':'');
   message.hidden=!key;message.textContent=key?t(key):'';message.dataset.error=String(authMessageError);
+  message.dataset.errorCode=authLastErrorCode;
+  if(!authCooldownTimer&&cooldown&&document.getElementById('account-dialog').open){
+    authCooldownTimer=setInterval(()=>{renderAccountUi();if(!authCooldownRemaining()){clearInterval(authCooldownTimer);authCooldownTimer=null;}},1000);
+  }
 }
 function setAuthMode(mode){
   if(authBusy) return;
-  authMode=mode;authMessageKey='';authMessageError=false;document.getElementById('auth-password').value='';renderAccountUi();
+  if(DEMO_MODE&&['reset','recovery'].includes(mode)) mode='signin';
+  authMode=mode;authMessageKey='';authMessageError=false;authLastErrorCode='';document.getElementById('auth-password').value='';renderAccountUi();
 }
 function openAccount(){
   if(ventilationSaving) return;
   if(authMode!=='recovery') setAuthMode('signin');
   const dialog=document.getElementById('account-dialog');
   if(!dialog.open) dialog.showModal();
+  renderAccountUi();
 }
 function closeAccount(){
   if(authBusy||ventilationSaving) return;
   document.getElementById('account-dialog').close();pendingLoginLocation='';document.getElementById('auth-password').value='';
 }
 document.getElementById('account-dialog').addEventListener('cancel',event=>{if(authBusy) event.preventDefault();});
-document.getElementById('account-dialog').addEventListener('close',()=>{pendingLoginLocation='';document.getElementById('auth-password').value='';});
+document.getElementById('account-dialog').addEventListener('close',()=>{pendingLoginLocation='';document.getElementById('auth-password').value='';clearInterval(authCooldownTimer);authCooldownTimer=null;});
 function accountRedirect(){const url=new URL(location.href);url.hash='';url.search='';return url.href;}
 async function submitAccount(event){
   event.preventDefault();
-  if(authBusy||!backendConfigured()) return;
+  if(authBusy||!accountsAvailable()||authCooldownRemaining()) return;
   const form=document.getElementById('auth-form');if(!form.reportValidity()) return;
   const email=document.getElementById('auth-email').value.trim();
   const password=document.getElementById('auth-password').value;
   const name=document.getElementById('auth-name').value.trim();
   const mode=authMode;
   if(mode==='signup'&&(name.length<2||name.length>60)){setAuthMessage('authNameInvalid',true);return;}
-  if((mode==='signup'||mode==='recovery')&&password.length<8){setAuthMessage('authPasswordInvalid',true);return;}
-  authBusy=true;authMessageKey='';renderAccountUi();
+  if(!DEMO_MODE&&(mode==='signup'||mode==='recovery')&&password.length<8){setAuthMessage('authPasswordInvalid',true);return;}
+  authBusy=true;authMessageKey='';authLastErrorCode='';renderAccountUi();
   try{
-    const client=await getBackend();
     let response;
+    if(DEMO_MODE) response={data:{session:{user:demoUser(email,mode==='signup'?name:'')}}};
+    else{
+    const client=await getBackend();
     if(mode==='signup') response=await client.auth.signUp({email,password,options:{data:{display_name:name},emailRedirectTo:accountRedirect()}});
     else if(mode==='reset') response=await client.auth.resetPasswordForEmail(email,{redirectTo:accountRedirect()});
     else if(mode==='recovery') response=await client.auth.updateUser({password});
     else response=await client.auth.signInWithPassword({email,password});
+    }
     if(response.error) throw response.error;
     document.getElementById('auth-password').value='';
     if(mode==='reset'){setAuthMessage('authResetSent');return;}
@@ -1230,32 +1339,33 @@ async function submitAccount(event){
       document.getElementById('account-dialog').close();pendingLoginLocation='';go(4);
     }
   }catch(error){
-    const key=error.status===429?'authRateLimit':!error.status?'authNetwork':mode==='signup'?'authSignupFailed':mode==='signin'?'authFailed':'authNetwork';
-    setAuthMessage(key,true);
+    authLastErrorCode=typeof error.code==='string'?error.code:'';
+    if(error.status===429) pauseAuthRequests(mode,error.code==='over_email_send_rate_limit');
+    setAuthMessage(authErrorMessage(error,mode),true);
   }finally{authBusy=false;renderAccountUi();}
 }
 async function signOutAccount(){
   if(authBusy||ventilationSaving) return;
   authBusy=true;renderAccountUi();
-  try{const client=await getBackend();const {error}=await client.auth.signOut({scope:'local'});if(error) throw error;await syncAccount(null,'SIGNED_OUT');setAuthMode('signin');}
+  try{if(DEMO_MODE){try{localStorage.removeItem('classsense.demo.session');}catch{}}else{const client=await getBackend();const {error}=await client.auth.signOut({scope:'local'});if(error) throw error;}await syncAccount(null,'SIGNED_OUT');setAuthMode('signin');}
   catch{setAuthMessage('authNetwork',true);}
   finally{authBusy=false;authMode='signin';renderAccountUi();}
 }
 function beginVentilation(){
   if(!selectedRoom||co2Level(roomReadings.get(selectedRoom).at(-1))!=='high') return;
-  if(!authUser){pendingLoginLocation=selectedRoom;openAccount();if(backendConfigured()) setAuthMessage('loginToRecord');return;}
+  if(!authUser){pendingLoginLocation=selectedRoom;openAccount();if(accountsAvailable()) setAuthMessage('loginToRecord');return;}
   ventilationErrorKey='';go(4);
 }
 function renderRecordUi(){
   document.getElementById('record-author').textContent=authUser?t('recordAs',{name:accountName()}):t('loginToRecord');
   const error=document.getElementById('ventilation-error');error.hidden=!ventilationErrorKey;error.textContent=ventilationErrorKey?t(ventilationErrorKey):'';error.dataset.error='true';
-  const confirm=document.getElementById('confirm-ventilation');confirm.disabled=ventilationSaving||!authUser||!backendConfigured();confirm.textContent=t(ventilationSaving?'saveWorking':'confirmVentilation');
+  const confirm=document.getElementById('confirm-ventilation');confirm.disabled=ventilationSaving||!authUser||!accountsAvailable();confirm.textContent=t(ventilationSaving?'saveWorking':'confirmVentilation');
   document.querySelector('#s4 .secondary').disabled=ventilationSaving;
   document.getElementById('saved-record').textContent=savedRecord?recordSummary(savedRecord):'';
 }
 function recordSummary(row){return t('savedSummary',{name:row.display_name,date:formatDate(row.created_at),time:formatTime(row.created_at),value:formatPpm(row.co2_ppm)});}
 async function saveVentilation(){
-  if(ventilationSaving||!selectedRoom||!authUser||!backendConfigured()) return;
+  if(ventilationSaving||!selectedRoom||!authUser||!accountsAvailable()) return;
   const room=selectedRoom,userId=authUser.id;
   if(co2Level(roomReadings.get(room).at(-1))!=='high') return;
   if(!pendingVentilation||pendingVentilation.location!==room||pendingVentilation.userId!==userId){
@@ -1264,6 +1374,13 @@ async function saveVentilation(){
   const pending=pendingVentilation;
   ventilationSaving=true;ventilationErrorKey='';renderRecordUi();renderAccountUi();
   try{
+    if(DEMO_MODE){
+      const records=readDemoRecords();
+      let record=records.find(row=>row.id===pending.requestId);
+      if(!record){record={id:pending.requestId,location_id:room,display_name:accountName(),co2_ppm:pending.ppm,is_demo:true,created_at:new Date().toISOString()};records.push(record);}
+      localStorage.setItem('classsense.demo.ventilation',JSON.stringify(records.slice(-200)));
+      savedRecord=record;pendingVentilation=null;
+    }else{
     const client=await getBackend();
     const {data:identity,error:identityError}=await client.auth.getUser();
     if(identityError||identity.user?.id!==userId){ventilationErrorKey='sessionExpired';return;}
@@ -1271,6 +1388,7 @@ async function saveVentilation(){
     if(error) throw error;
     if(!data?.id||data.location_id!==room) throw new Error('Record not acknowledged');
     savedRecord=data;pendingVentilation=null;
+    }
   }catch(error){ventilationErrorKey=error.status===401?'sessionExpired':'saveFailed';}
   finally{
     ventilationSaving=false;renderRecordUi();renderAccountUi();
@@ -1280,8 +1398,8 @@ async function saveVentilation(){
 }
 function renderVentilationHistory(){
   document.getElementById('history-state').textContent=t(historyStateKey);
-  document.getElementById('history-login').hidden=!backendConfigured()||!!authUser;
-  document.getElementById('history-refresh').hidden=!backendConfigured()||!authUser;
+  document.getElementById('history-login').hidden=!accountsAvailable()||!!authUser;
+  document.getElementById('history-refresh').hidden=!accountsAvailable()||!authUser;
   document.getElementById('history-refresh').disabled=historyStateKey==='historyLoading';
   const list=document.getElementById('history-list');list.replaceChildren();
   historyRows.forEach(row=>{
@@ -1294,9 +1412,10 @@ function renderVentilationHistory(){
 }
 async function loadVentilationHistory(){
   const version=++historyVersion,room=selectedRoom,userId=authUser?.id;
-  historyRows=[];historyStateKey=!backendConfigured()?'historyUnavailable':!authUser?'historyLogin':'historyLoading';renderVentilationHistory();
-  if(!backendConfigured()||!authUser||!room) return;
+  historyRows=[];historyStateKey=!accountsAvailable()?'historyUnavailable':!authUser?'historyLogin':'historyLoading';renderVentilationHistory();
+  if(!accountsAvailable()||!authUser||!room) return;
   try{
+    if(DEMO_MODE){historyRows=readDemoRecords().filter(row=>row.location_id===room).reverse().slice(0,20);historyStateKey=historyRows.length?'historyLimit':'historyEmpty';renderVentilationHistory();return;}
     const client=await getBackend();
     const {data,error}=await client.from('ventilation_records').select('id,location_id,display_name,co2_ppm,is_demo,created_at').eq('location_id',room).order('created_at',{ascending:false}).limit(20);
     if(version!==historyVersion||selectedRoom!==room||authUser?.id!==userId) return;
@@ -1307,6 +1426,13 @@ async function loadVentilationHistory(){
 }
 async function initializeAccount(){
   renderAccountUi();
+  if(DEMO_MODE){
+    try{
+      const user=JSON.parse(readPreference('classsense.demo.session','null'));
+      if(user?.is_demo===true&&typeof user.email==='string'&&user.id==='demo:'+user.email&&typeof user.user_metadata?.display_name==='string') await syncAccount({user},'INITIAL_SESSION');
+    }catch{}
+    return;
+  }
   if(!backendConfigured()) return;
   try{const client=await getBackend();const {data,error}=await client.auth.getSession();if(error) throw error;await syncAccount(data.session,'INITIAL_SESSION');}
   catch{setAuthMessage('authNetwork',true);}
